@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+ <typeAliases>
+		<typeAlias type="org.school.test.vo.User" alias="User" />
+		<typeAlias type="org.school.test.vo.Board" alias="Board" />
+		<typeAlias type="org.school.test.vo.goodHit" alias="GoodHit" />
+		<typeAlias type="org.school.test.vo.WishList" alias="WishList" />
+		<typeAlias type="org.school.test.vo.Log" alias="Log" />
+		<typeAlias type="org.school.test.vo.Message" alias="Message" />
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="WishListMapper.xml"/>
+		<mapper resource="UserMapper.xml" />
+		<mapper resource="boardMapper.xml" />
+		<mapper resource="webSocketMapper.xml"/>
+	</mappers>
+
+</configuration>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.school.test.dao.BoardDAO">
+	
+	<insert id="insertBoard" parameterType="Board">
+	INSERT INTO board3(
+		boardnum
+		, schoolnum
+		, userid
+		, title
+		, content
+		<if test="originalfile!=null">
+		, originalfile
+		, savefile
+		</if>
+		)
+	VALUES 
+	(
+		boardseq2.nextval
+		, #{schoolnum}
+		, #{userid}
+		, #{title}
+		, #{content}
+		<if test="originalfile!=null">
+		, #{originalfile}
+		, #{savefile}
+		</if>
+		
+	)
+	</insert>
+	
+	<select id="getCount" parameterType="map" resultType="int">
+	select 
+	count(*)
+	from board3
+	<if test="_parameter!=null">
+	where
+		${search} like '%'||#{searchText}||'%'
+		and schoolnum = #{schoolnum}
+	</if>
+	</select>
+		
+	
+	<select id="getBoardListMap" resultType="Board" parameterType="map">
+	select 
+		boardnum, 
+		userid,
+		title,
+		content,
+		hitcount,
+		to_char(regdate, 'YYYY/MM/DD')as regdate
+		
+	from board3
+	<if test="_parameter!=null">
+	where
+		${search} like '%'||#{searchText}||'%'
+		and schoolnum = #{schoolnum}
+	</if>
+	
+	</select>
+	
+	<!-- 게시판내용가져오기 -->
+	<select id="getBoard" parameterType="string" resultType="Board">
+	select 
+		boardnum, 
+		userid,
+		title,
+		content,
+		hitcount,
+		to_char(regdate, 'YYYY/MM/DD')as regdate,
+		originalfile,
+		savefile as savedfile
+	from board3
+	where boardnum=#{value}
+	order by boardnum desc
+	</select>
+	
+	<select id="getHitGood" parameterType="string" resultType="int">
+	select count(*) from goodhit
+	where boardnum=#{boardnum}
+	</select>
+	
+	<update id="hitBoardCount" parameterType="Board">
+	update board3
+	set hitcount = #{hitcount}
+	where boardnum = #{boardnum}
+	</update>
+	
+	<update id="updateBoard" parameterType="Board">
+	update board3
+	set title = #{title},
+		content = #{content}
+	where boardnum = #{boardnum}
+	</update>
+	
+	
+	<delete id="deleteBoard" parameterType="string">
+	delete from board3
+	where boardnum = #{value}
+	</delete>
+	
+	
+	<insert id="insertHitGood" parameterType="GoodHit">
+	INSERT INTO goodhit
+	VALUES 
+	(
+		#{boardnum},
+		#{userid}
+	)
+	</insert>
+	
+	
+	<select id="selectOneGoodHit" parameterType="GoodHit" resultType="GoodHit">
+	select * from goodhit
+	where boardnum = #{boardnum} and
+		  userid = #{userid}
+	
+	</select>
+	
+	<!-- <select id="getReviewList" resultType="Review" parameterType="string">
+	select * from review 
+	where
+	boardnum = #{boardnum} 
+	</select>  -->
+ 
+</mapper>
+
+
+
+
+
+

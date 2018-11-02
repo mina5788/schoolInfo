@@ -1,0 +1,61 @@
+drop table user2;
+drop table board3;
+
+select * from user2;
+select *from board3;
+
+
+create table User2(
+userid varchar2(20) primary key,
+userpwd varchar2(20) not null,
+email varchar2(30),
+name varchar2(100),
+namekana varchar2(100),
+birthday date,
+gender varchar2(10),
+work varchar2(20),
+phone varchar2(20),
+address varchar2(100)
+);
+
+create sequence board3Seq;
+create table Board3(
+   boardnum number primary key,
+   userid varchar2(20) not null,
+   title varchar2(200) not null,
+   content varchar2(2000) not null,
+   hitcount number default 0,
+   regdate date default sysdate,
+   originalfile varchar2(200),
+   savefile varchar2(100),
+   schoolnum varchar2(50)
+);
+
+
+
+create table goodhit(
+boardnum varchar(100),
+userid varchar2(50)
+);
+
+create table wishlist2(
+schoolnum varchar2(50),
+userid varchar2(50)
+);
+
+create table message(
+messageNum varchar2(10),
+messageSender varchar2(100),
+messageReceiver varchar2(100),
+content varchar2(2000),
+sendTime varchar2(20)
+);
+
+create table log(
+startMessageNum varchar2(50),
+endMessageNum varchar2(50),
+userid varchar2(50),
+roomName varchar2(50)
+);
+
+

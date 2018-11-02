@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.school.test.dao.webSocketDAO">
+
+	<insert id="insertLog" parameterType="Log">
+	insert into log(startMessageNum, roomName, userid)
+	values(messageSeq.nextval, #{roomName}, #{sessionId})
+	</insert>
+	
+	<insert id="insertMessage" parameterType="Message">
+	insert into message
+	values(messageSeq.nextval, #{messageSender}, #{content}, sysdate, #{roomName})
+	</insert>
+	
+	<insert id="insertEndTimeLog" parameterType="Log">
+	insert into log(endMessageNum, roomName, sessionId)
+	values(messageSeq.nextval, #{roomName}, #{sessionId})
+	</insert>
+
+	<select id="getMessageList" parameterType="string" resultType="Message">
+	select * from message
+	<![CDATA[ where MESSAGENUM >=  
+	(select startMessageNum from log where sessionId = #{sessionId} and startMessageNum is not null)
+	and  
+	MESSAGENUM<=
+	(select endMessageNum from log where sessionId = #{sessionId} and endMessageNum is not null)]]>
+	and roomName = #{roomName}
+	</select> 
+	
+</mapper>
+
+
+
+
+
+
